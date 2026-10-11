@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.badmintontest.controller.RevenueController">
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+   <children>
+      <!-- ส่วนเลือกวัน / เดือน -->
+      <GridPane hgap="10.0" vgap="10.0">
+         <children>
+            <Label text="วันที่ (เช่น 2026-10-11)" GridPane.rowIndex="0" />
+            <TextField fx:id="dayField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Button onAction="#onDayClick" text="ดูรายได้รายวัน" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+            <Label text="ปี ค.ศ." GridPane.rowIndex="1" />
+            <TextField fx:id="yearField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+            <Label text="เดือน (1-12)" GridPane.rowIndex="2" />
+            <TextField fx:id="monthField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button onAction="#onMonthClick" text="ดูรายได้รายเดือน" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+
+      <!-- ผลลัพธ์รายได้รวม -->
+      <Label fx:id="resultLabel" text="-" />
+
+      <!-- รายละเอียดสินค้าที่ขายได้ -->
+      <Label text="สินค้าที่ขายได้" />
+      <TableView fx:id="saleTable" prefHeight="200.0">
+         <columns>
+            <TableColumn prefWidth="100.0" text="วันที่"><cellValueFactory><PropertyValueFactory property="date" /></cellValueFactory></TableColumn>
+            <TableColumn prefWidth="180.0" text="สินค้า"><cellValueFactory><PropertyValueFactory property="productName" /></cellValueFactory></TableColumn>
+            <TableColumn prefWidth="80.0" text="ราคา/ชิ้น"><cellValueFactory><PropertyValueFactory property="price" /></cellValueFactory></TableColumn>
+            <TableColumn prefWidth="70.0" text="จำนวน"><cellValueFactory><PropertyValueFactory property="qty" /></cellValueFactory></TableColumn>
+            <TableColumn prefWidth="90.0" text="รวม (บาท)"><cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory></TableColumn>
+         </columns>
+      </TableView>
+      <Label fx:id="saleSummaryLabel" text="-" />
+   </children>
+</VBox>

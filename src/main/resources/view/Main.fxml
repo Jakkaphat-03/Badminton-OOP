@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane prefHeight="500.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.badmintontest.controller.MainController">
+   <top>
+      <HBox spacing="10.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+         <children>
+            <Label fx:id="userLabel" text="ผู้ใช้" />
+            <Button onAction="#onLogoutClick" text="ออกจากระบบ" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <!-- แต่ละแท็บดึงหน้ามาจากไฟล์ fxml อีกไฟล์ (fx:include) -->
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab fx:id="bookingTab" text="จองสนาม">
+               <content>
+                  <fx:include source="Booking.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="searchTab" text="ค้นหาการจอง">
+               <content>
+                  <fx:include source="Search.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="memberTab" text="สมาชิก">
+               <content>
+                  <fx:include source="Member.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="productTab" text="ขายสินค้า">
+               <content>
+                  <fx:include source="Product.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="historyTab" text="ประวัติการจองของสมาชิก">
+               <content>
+                  <fx:include source="History.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="revenueTab" text="สรุปรายได้">
+               <content>
+                  <fx:include source="Revenue.fxml" />
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
