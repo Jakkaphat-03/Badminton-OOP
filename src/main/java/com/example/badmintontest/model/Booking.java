@@ -107,15 +107,9 @@ public class Booking implements Income {
         return start < getEndHour() && end > this.startHour;
     }
 
-    // ใช้ตอนค้นหา : เจอคำค้นในข้อมูลไหนก็ได้ถือว่าตรง
+    // ใช้ตอนค้นหา : ค้นจากชื่อสมาชิกอย่างเดียว (พิมพ์แค่บางส่วนของชื่อก็เจอ)
     public boolean matches(String keyword) {
-        String k = keyword.toLowerCase();
-        return id.toLowerCase().contains(k)
-                || member.getId().toLowerCase().contains(k)
-                || member.getName().toLowerCase().contains(k)
-                || member.getPhone().contains(k)
-                || String.valueOf(court).equals(k)
-                || playDate.toString().contains(k);
+        return member.getName().toLowerCase().contains(keyword.toLowerCase());
     }
 
     // ใช้พิมพ์รายการจอง 1 บรรทัด

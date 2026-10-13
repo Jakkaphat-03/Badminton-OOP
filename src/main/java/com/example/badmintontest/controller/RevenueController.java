@@ -58,6 +58,14 @@ public class RevenueController {
             Alerts.show("ปีและเดือนต้องเป็นตัวเลข");
             return;
         }
+        if (month < 1 || month > 12) {
+            Alerts.show("เดือนต้องเป็น 1-12");
+            return;
+        }
+        if (year < 1) {
+            Alerts.show("ปีต้องมากกว่า 0");
+            return;
+        }
         resultLabel.setText("รายได้รวมเดือน " + month + "/" + year + " = "
                 + Session.system.getIncomeOfMonth(year, month) + " บาท");
         showSales(Session.system.getProductSalesOfMonth(year, month));

@@ -21,6 +21,8 @@ public class HistoryController {
     private void onShowClick() {
         Member member = Session.system.findMember(memberField.getText().trim());
         if (member == null) {
+            bookingTable.getItems().clear();    // ล้างข้อมูลของสมาชิกคนก่อนหน้า
+            summaryLabel.setText("");
             Alerts.show("ไม่พบสมาชิก");
             return;
         }

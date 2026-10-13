@@ -118,6 +118,10 @@ public class BookingController {
             Alerts.show("กรุณากรอกตัวเลขให้ถูกต้อง");
             return;
         }
+        if (shoes < 0 || rackets < 0) {
+            Alerts.show("จำนวนที่เช่าต้องไม่ติดลบ");
+            return;
+        }
         String slip = "";
         if (slipFile != null) {
             slip = slipFile.getAbsolutePath();

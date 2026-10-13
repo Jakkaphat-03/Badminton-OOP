@@ -17,7 +17,7 @@
    <top>
       <HBox spacing="10.0">
          <children>
-            <Label text="ค้นหา (ชื่อ / รหัสสมาชิก / เบอร์โทร / รหัสจอง / เลขสนาม / วันที่)" />
+            <Label text="ค้นหาจากชื่อสมาชิก" />
             <TextField fx:id="keywordField" onAction="#onSearchClick" />
             <Button onAction="#onSearchClick" text="ค้นหา" />
             <Button onAction="#onShowSlipClick" text="ดูสลิปของรายการที่เลือก" />
