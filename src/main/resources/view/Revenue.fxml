@@ -13,7 +13,7 @@
       <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
    </padding>
    <children>
-      <!-- ส่วนเลือกวัน / เดือน -->
+      <!-- ส่วนเลือกวัน / เดือน / ปี -->
       <GridPane hgap="10.0" vgap="10.0">
          <children>
             <Label text="วันที่ ค.ศ. (เช่น 2026-10-11)" GridPane.rowIndex="0" />
@@ -22,6 +22,7 @@
 
             <Label text="ปี ค.ศ." GridPane.rowIndex="1" />
             <TextField fx:id="yearField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button onAction="#onYearClick" text="ดูรายได้รายปี" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
             <Label text="เดือน (1-12)" GridPane.rowIndex="2" />
             <TextField fx:id="monthField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -29,11 +30,11 @@
          </children>
       </GridPane>
 
-      <!-- ผลลัพธ์รายได้รวม -->
-      <Label fx:id="resultLabel" text="-" />
+      <!-- ผลลัพธ์รายได้ แยกตามประเภท -->
+      <TextArea fx:id="summaryArea" editable="false" prefHeight="130.0" />
 
       <!-- รายละเอียดสินค้าที่ขายได้ -->
       <Label text="สินค้าที่ขายได้" />
-      <TextArea fx:id="saleArea" editable="false" prefHeight="200.0" />
+      <TextArea fx:id="saleArea" editable="false" prefHeight="180.0" />
    </children>
 </VBox>

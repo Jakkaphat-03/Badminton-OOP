@@ -18,6 +18,8 @@
             <Label text="รหัสสมาชิก (เช่น M1)" />
             <TextField fx:id="memberField" onAction="#onShowClick" />
             <Button onAction="#onShowClick" text="ดูประวัติ" />
+            <Button onAction="#onTopMemberClick" text="สมาชิกที่จองมากที่สุด" />
+            <Button onAction="#onStaffClick" text="จำนวนการจองของพนักงาน" />
          </children>
       </HBox>
    </top>

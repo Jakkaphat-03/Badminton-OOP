@@ -12,16 +12,18 @@ public class Booking implements Income {
     private LocalDate playDate;     // วันที่เล่น
     private int startHour;          // ชั่วโมงเริ่ม เช่น 13
     private int hours;              // จำนวนชั่วโมง
-    private int courtPrice;         // ค่าสนาม
+    private int courtPrice;         // ค่าสนาม (หลังหักแพ็กเกจและส่วนลดแล้ว)
+    private int packageHoursUsed;   // ใช้ชั่วโมงแพ็กเกจไปกี่ชั่วโมงในการจองครั้งนี้
     private int shoes;              // จำนวนรองเท้าที่เช่า
     private int rackets;            // จำนวนไม้ที่เช่า
-    private int rentPrice;          // ค่าเช่าอุปกรณ์
+    private int towels;             // จำนวนผ้าเช็ดตัวที่เช่า
+    private int rentPrice;          // ค่าเช่าอุปกรณ์รวม
     private String slipPath;        // ไฟล์สลิปที่แนบ
     private LocalDate paidDate;     // วันที่ชำระเงิน
     private String cashierName;     // พนักงานที่กรอกข้อมูล
 
     public Booking(String id, Member member, int court, LocalDate playDate, int startHour, int hours,
-                   int courtPrice, int shoes, int rackets, int rentPrice,
+                   int courtPrice, int packageHoursUsed, int shoes, int rackets, int towels, int rentPrice,
                    String slipPath, LocalDate paidDate, String cashierName) {
         this.id = id;
         this.member = member;
@@ -30,8 +32,10 @@ public class Booking implements Income {
         this.startHour = startHour;
         this.hours = hours;
         this.courtPrice = courtPrice;
+        this.packageHoursUsed = packageHoursUsed;
         this.shoes = shoes;
         this.rackets = rackets;
+        this.towels = towels;
         this.rentPrice = rentPrice;
         this.slipPath = slipPath;
         this.paidDate = paidDate;
@@ -70,12 +74,20 @@ public class Booking implements Income {
         return courtPrice;
     }
 
+    public int getPackageHoursUsed() {
+        return packageHoursUsed;
+    }
+
     public int getShoes() {
         return shoes;
     }
 
     public int getRackets() {
         return rackets;
+    }
+
+    public int getTowels() {
+        return towels;
     }
 
     public int getRentPrice() {
@@ -98,9 +110,11 @@ public class Booking implements Income {
         return start < getEndHour() && end > this.startHour;
     }
 
-    // ใช้ตอนค้นหา : ค้นจากชื่อสมาชิกอย่างเดียว (พิมพ์แค่บางส่วนของชื่อก็เจอ)
+    // ใช้ตอนค้นหา : ค้นจากชื่อสมาชิก หรือเบอร์โทร (พิมพ์แค่บางส่วนก็เจอ)
     public boolean matches(String keyword) {
-        return member.getName().toLowerCase().contains(keyword.toLowerCase());
+        boolean nameMatch = member.getName().toLowerCase().contains(keyword.toLowerCase());
+        boolean phoneMatch = member.getPhone().contains(keyword);
+        return nameMatch || phoneMatch;
     }
 
     // ---- ส่วนที่มาจาก interface Income ----

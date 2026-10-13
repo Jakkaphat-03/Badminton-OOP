@@ -18,42 +18,54 @@
       <Label text="วันธรรมดาเปิด 13.00-21.00 | เสาร์ อาทิตย์ วันหยุดนักขัตฤกษ์ 10.00-20.00 | 180 บาท/ชม." GridPane.columnSpan="3" GridPane.rowIndex="0" />
 
       <Label text="รหัสสมาชิก (เช่น M1)" GridPane.rowIndex="1" />
-      <TextField fx:id="memberField" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-      <Label text="หมายเลขสนาม (1-12)" GridPane.rowIndex="2" />
-      <TextField fx:id="courtField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-      <Label text="วันที่เล่น" GridPane.rowIndex="3" />
-      <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <DatePicker fx:id="datePicker" onAction="#onDateChange" />
-            <Label fx:id="openTimeLabel" />
+            <TextField fx:id="memberField" onAction="#onMemberCheckClick" />
+            <Button onAction="#onMemberCheckClick" text="ดูข้อมูลสมาชิก" />
          </children>
       </HBox>
 
-      <Label text="เวลาเริ่ม (นาฬิกา)" GridPane.rowIndex="4" />
-      <ComboBox fx:id="startBox" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <!-- ข้อมูลสมาชิก: ชั่วโมงสะสม แพ็กเกจ และอีกกี่ชั่วโมงจะได้ส่วนลด -->
+      <Label fx:id="memberInfoLabel" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-      <Label text="จำนวนชั่วโมง" GridPane.rowIndex="5" />
-      <TextField fx:id="hoursField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Label text="หมายเลขสนาม (1-12)" GridPane.rowIndex="3" />
+      <TextField fx:id="courtField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-      <Label text="เช่ารองเท้า (คู่)" GridPane.rowIndex="6" />
-      <TextField fx:id="shoesField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Label text="วันที่เล่น" GridPane.rowIndex="4" />
+      <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <children>
+            <DatePicker fx:id="datePicker" onAction="#onDateChange" />
+            <Label fx:id="openTimeLabel" />
+            <Button onAction="#onFreeCourtClick" text="ดูสนามว่าง" />
+         </children>
+      </HBox>
 
-      <Label text="เช่าไม้แบดมินตัน (อัน)" GridPane.rowIndex="7" />
-      <TextField fx:id="racketField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <Label text="เวลาเริ่ม (นาฬิกา)" GridPane.rowIndex="5" />
+      <ComboBox fx:id="startBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-      <Label text="สลิปการชำระเงิน" GridPane.rowIndex="8" />
-      <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+      <Label text="จำนวนชั่วโมง" GridPane.rowIndex="6" />
+      <TextField fx:id="hoursField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+      <Label text="เช่ารองเท้า (คู่ละ 50 บาท)" GridPane.rowIndex="7" />
+      <TextField fx:id="shoesField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+      <Label text="เช่าไม้แบดมินตัน (อันละ 50 บาท)" GridPane.rowIndex="8" />
+      <TextField fx:id="racketField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+      <Label text="เช่าผ้าเช็ดตัว (ผืนละ 20 บาท)" GridPane.rowIndex="9" />
+      <TextField fx:id="towelField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+      <Label text="สลิปการชำระเงิน" GridPane.rowIndex="10" />
+      <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
          <children>
             <Button onAction="#onUploadSlipClick" text="อัปโหลดสลิป" />
             <Label fx:id="slipLabel" text="ยังไม่ได้แนบสลิป" />
          </children>
       </HBox>
 
-      <Button onAction="#onBookClick" text="จองสนาม" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Button onAction="#onBookClick" text="จองสนาม" GridPane.columnIndex="1" GridPane.rowIndex="11" />
 
       <!-- รูปสลิปตัวอย่าง แสดงด้านขวา -->
-      <ImageView fx:id="slipImage" fitHeight="300.0" fitWidth="220.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="9" />
+      <ImageView fx:id="slipImage" fitHeight="300.0" fitWidth="220.0" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="11" />
    </children>
 </GridPane>

@@ -1,6 +1,8 @@
 package com.example.badmintontest.controller;
 
+import com.example.badmintontest.model.Member;
 import com.example.badmintontest.model.Product;
+import com.example.badmintontest.model.ProductSale;
 import com.example.badmintontest.service.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -16,6 +18,8 @@ public class ProductController {
     private TextField numberField;
     @FXML
     private TextField qtyField;
+    @FXML
+    private TextField memberField;
 
     @FXML
     private void initialize() {
@@ -45,9 +49,37 @@ public class ProductController {
             Alerts.show("จำนวนไม่ถูกต้อง หรือสินค้าไม่พอ");
             return;
         }
-        Session.system.sellProduct(product, qty);
-        Alerts.show("ขาย " + product.getName() + " " + qty + " ชิ้น รวม " + (product.getPrice() * qty) + " บาท");
+
+        // ถ้ากรอกรหัสสมาชิก → ต้องเป็นสมาชิกจริงและยังไม่หมดอายุ ถึงจะได้ลด 5%
+        boolean memberDiscount = false;
+        String memberId = memberField.getText().trim();
+        if (!memberId.equals("")) {
+            Member member = Session.system.findMember(memberId);
+            if (member == null) {
+                Alerts.show("ไม่พบสมาชิก (ถ้าไม่ใช่สมาชิกให้เว้นช่องว่าง)");
+                return;
+            }
+            if (member.isExpired()) {
+                Alerts.show("สมาชิกหมดอายุแล้ว ไม่ได้ส่วนลด");
+                return;
+            }
+            memberDiscount = true;
+        }
+
+        ProductSale sale = Session.system.sellProduct(product, qty, memberDiscount);
+        String text = "ขาย " + product.getName() + " " + qty + " ชิ้น รวม " + sale.getAmount() + " บาท";
+        if (memberDiscount) {
+            text = text + " (สมาชิกลด 5%)";
+        }
+        Alerts.show(text);
         qtyField.setText("1");
+        memberField.setText("");
+        showProducts();
+    }
+
+    // ปุ่มรีเฟรช : โหลดรายการสินค้าใหม่ (เช่น หลังผู้ดูแลเพิ่มสินค้า/เติมสต็อก)
+    @FXML
+    private void onRefreshClick() {
         showProducts();
     }
 
