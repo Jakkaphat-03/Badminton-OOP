@@ -3,10 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -20,25 +18,20 @@
             <Label text="ค้นหาจากชื่อสมาชิก" />
             <TextField fx:id="keywordField" onAction="#onSearchClick" />
             <Button onAction="#onSearchClick" text="ค้นหา" />
-            <Button onAction="#onShowSlipClick" text="ดูสลิปของรายการที่เลือก" />
          </children>
       </HBox>
    </top>
    <center>
-      <!-- property="xxx" คือชื่อ getter ในคลาส Booking เช่น property="id" -> getId() -->
-      <TableView fx:id="bookingTable">
-         <columns>
-            <TableColumn text="รหัสจอง"><cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory></TableColumn>
-            <TableColumn text="สมาชิก"><cellValueFactory><PropertyValueFactory property="memberName" /></cellValueFactory></TableColumn>
-            <TableColumn text="สนาม"><cellValueFactory><PropertyValueFactory property="court" /></cellValueFactory></TableColumn>
-            <TableColumn text="วันที่เล่น"><cellValueFactory><PropertyValueFactory property="playDate" /></cellValueFactory></TableColumn>
-            <TableColumn text="เวลา"><cellValueFactory><PropertyValueFactory property="timeText" /></cellValueFactory></TableColumn>
-            <TableColumn text="ค่าสนาม"><cellValueFactory><PropertyValueFactory property="courtPrice" /></cellValueFactory></TableColumn>
-            <TableColumn text="ค่าเช่า"><cellValueFactory><PropertyValueFactory property="rentPrice" /></cellValueFactory></TableColumn>
-            <TableColumn text="รวม"><cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory></TableColumn>
-            <TableColumn text="สลิป"><cellValueFactory><PropertyValueFactory property="slipPath" /></cellValueFactory></TableColumn>
-            <TableColumn text="พนักงาน"><cellValueFactory><PropertyValueFactory property="cashierName" /></cellValueFactory></TableColumn>
-         </columns>
-      </TableView>
+      <!-- กล่องข้อความแสดงผลการค้นหา (แก้ไขข้อความไม่ได้) -->
+      <TextArea fx:id="resultArea" editable="false" />
    </center>
+   <bottom>
+      <HBox spacing="10.0">
+         <children>
+            <Label text="รหัสจอง (เช่น B1)" />
+            <TextField fx:id="bookingIdField" />
+            <Button onAction="#onShowSlipClick" text="ดูสลิป" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

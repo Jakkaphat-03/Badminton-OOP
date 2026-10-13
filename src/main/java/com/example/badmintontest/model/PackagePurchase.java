@@ -27,14 +27,4 @@ public class PackagePurchase implements Income {
     public int getAmount() {
         return price;
     }
-
-    @Override
-    public String getType() {
-        return "ซื้อแพ็กเกจ";
-    }
-
-    @Override
-    public String getDescription() {
-        return member.getName() + " แพ็กเกจ " + hours + " ชั่วโมง";
-    }
 }

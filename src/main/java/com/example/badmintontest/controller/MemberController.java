@@ -3,7 +3,7 @@ package com.example.badmintontest.controller;
 import com.example.badmintontest.model.Member;
 import com.example.badmintontest.service.Session;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 // controller ของ Member.fxml (แท็บสมาชิก)
@@ -15,7 +15,7 @@ public class MemberController {
     @FXML
     private TextField packageMemberField;
     @FXML
-    private TableView<Member> memberTable;
+    private TextArea memberArea;
 
     @FXML
     private void initialize() {
@@ -50,8 +50,20 @@ public class MemberController {
         showMembers();
     }
 
+    // แสดงรายชื่อสมาชิกทั้งหมด 1 คน = 1 บรรทัด
     private void showMembers() {
-        memberTable.getItems().setAll(Session.system.getMembers());
-        memberTable.refresh();      // ให้ตารางวาดตัวเลขชั่วโมงใหม่
+        String text = "";
+        for (Member m : Session.system.getMembers()) {
+            text = text + m.getId()
+                    + " | " + m.getName()
+                    + " | " + m.getPhone()
+                    + " | จองสะสม " + m.getTotalHours() + " ชม."
+                    + " | แพ็กเกจเหลือ " + m.getPackageHoursLeft() + " ชม."
+                    + "\n";
+        }
+        if (text.equals("")) {
+            text = "ยังไม่มีสมาชิก";
+        }
+        memberArea.setText(text);
     }
 }

@@ -47,10 +47,4 @@ public class Member {
     public void usePackageHours(int hours) {
         packageHoursLeft -= hours;
     }
-
-    // ใช้แสดงใน ComboBox
-    @Override
-    public String toString() {
-        return id + " - " + name;
-    }
 }

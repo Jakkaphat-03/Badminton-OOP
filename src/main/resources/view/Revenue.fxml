@@ -3,10 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -18,7 +16,7 @@
       <!-- ส่วนเลือกวัน / เดือน -->
       <GridPane hgap="10.0" vgap="10.0">
          <children>
-            <Label text="วันที่ (เช่น 2026-10-11)" GridPane.rowIndex="0" />
+            <Label text="วันที่ ค.ศ. (เช่น 2026-10-11)" GridPane.rowIndex="0" />
             <TextField fx:id="dayField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Button onAction="#onDayClick" text="ดูรายได้รายวัน" GridPane.columnIndex="2" GridPane.rowIndex="0" />
 
@@ -36,15 +34,6 @@
 
       <!-- รายละเอียดสินค้าที่ขายได้ -->
       <Label text="สินค้าที่ขายได้" />
-      <TableView fx:id="saleTable" prefHeight="200.0">
-         <columns>
-            <TableColumn prefWidth="100.0" text="วันที่"><cellValueFactory><PropertyValueFactory property="date" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="180.0" text="สินค้า"><cellValueFactory><PropertyValueFactory property="productName" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="80.0" text="ราคา/ชิ้น"><cellValueFactory><PropertyValueFactory property="price" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="70.0" text="จำนวน"><cellValueFactory><PropertyValueFactory property="qty" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="90.0" text="รวม (บาท)"><cellValueFactory><PropertyValueFactory property="amount" /></cellValueFactory></TableColumn>
-         </columns>
-      </TableView>
-      <Label fx:id="saleSummaryLabel" text="-" />
+      <TextArea fx:id="saleArea" editable="false" prefHeight="200.0" />
    </children>
 </VBox>

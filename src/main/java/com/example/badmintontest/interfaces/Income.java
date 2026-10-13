@@ -8,8 +8,4 @@ public interface Income {
     LocalDate getDate();        // วันที่ชำระเงิน
 
     int getAmount();            // จำนวนเงิน
-
-    String getType();           // ประเภทรายได้
-
-    String getDescription();    // รายละเอียด
 }

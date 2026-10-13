@@ -4,31 +4,52 @@ import com.example.badmintontest.model.Booking;
 import com.example.badmintontest.service.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.util.List;
 
 // controller ของ Search.fxml (แท็บค้นหาการจอง)
 public class SearchController {
     @FXML
     private TextField keywordField;
     @FXML
-    private TableView<Booking> bookingTable;
+    private TextArea resultArea;
+    @FXML
+    private TextField bookingIdField;
 
     @FXML
     private void onSearchClick() {
-        bookingTable.getItems().setAll(Session.system.searchBookings(keywordField.getText().trim()));
+        List<Booking> list = Session.system.searchBookings(keywordField.getText().trim());
+        if (list.isEmpty()) {
+            resultArea.setText("ไม่พบข้อมูลการจอง");
+            return;
+        }
+
+        // ต่อข้อความทีละรายการ 1 รายการ = 1 บรรทัด
+        String text = "";
+        for (Booking b : list) {
+            text = text + b.getId()
+                    + " | " + b.getMember().getName()
+                    + " | สนาม " + b.getCourt()
+                    + " | " + b.getPlayDate()
+                    + " | " + b.getStartHour() + ":00 - " + b.getEndHour() + ":00"
+                    + " | รวม " + b.getAmount() + " บาท"
+                    + " | พนักงาน " + b.getCashierName()
+                    + "\n";
+        }
+        resultArea.setText(text);
     }
 
-    // เปิดรูปสลิปของการจองที่คลิกเลือกในตาราง
+    // เปิดรูปสลิปของการจองตามรหัสจองที่พิมพ์
     @FXML
     private void onShowSlipClick() {
-        Booking booking = bookingTable.getSelectionModel().getSelectedItem();
+        Booking booking = Session.system.findBooking(bookingIdField.getText().trim());
         if (booking == null) {
-            Alerts.show("กรุณาคลิกเลือกรายการจองในตารางก่อน");
+            Alerts.show("ไม่พบรหัสจองนี้");
             return;
         }
         File file = new File(booking.getSlipPath());
@@ -44,7 +65,7 @@ public class SearchController {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("สลิปของ " + booking.getId());
-        alert.setHeaderText(booking.getMemberName() + " สนาม " + booking.getCourt() + " " + booking.getPlayDate());
+        alert.setHeaderText(booking.getMember().getName() + " สนาม " + booking.getCourt() + " " + booking.getPlayDate());
         alert.setGraphic(null);
         alert.getDialogPane().setContent(imageView);
         alert.showAndWait();

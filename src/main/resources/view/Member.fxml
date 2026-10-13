@@ -3,10 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -26,15 +24,8 @@
       </HBox>
    </top>
    <center>
-      <TableView fx:id="memberTable">
-         <columns>
-            <TableColumn text="รหัส"><cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="150.0" text="ชื่อ"><cellValueFactory><PropertyValueFactory property="name" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="100.0" text="เบอร์โทร"><cellValueFactory><PropertyValueFactory property="phone" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="110.0" text="ชม.ที่จองสะสม"><cellValueFactory><PropertyValueFactory property="totalHours" /></cellValueFactory></TableColumn>
-            <TableColumn prefWidth="130.0" text="ชม.แพ็กเกจที่เหลือ"><cellValueFactory><PropertyValueFactory property="packageHoursLeft" /></cellValueFactory></TableColumn>
-         </columns>
-      </TableView>
+      <!-- รายชื่อสมาชิกทั้งหมด -->
+      <TextArea fx:id="memberArea" editable="false" />
    </center>
    <bottom>
       <HBox spacing="10.0">

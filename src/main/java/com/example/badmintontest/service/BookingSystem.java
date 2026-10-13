@@ -191,6 +191,16 @@ public class BookingSystem {
         return result;
     }
 
+    // หาการจองจากรหัสจอง เช่น B1 (ไม่เจอคืน null)
+    public Booking findBooking(String id) {
+        for (Booking b : bookings) {
+            if (b.getId().equalsIgnoreCase(id)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
     public List<Booking> getBookingsOfMember(Member member) {
         List<Booking> result = new ArrayList<>();
         for (Booking b : bookings) {

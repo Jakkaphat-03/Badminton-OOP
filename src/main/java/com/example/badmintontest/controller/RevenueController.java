@@ -4,7 +4,7 @@ import com.example.badmintontest.model.ProductSale;
 import com.example.badmintontest.service.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
@@ -21,9 +21,7 @@ public class RevenueController {
     @FXML
     private Label resultLabel;
     @FXML
-    private TableView<ProductSale> saleTable;
-    @FXML
-    private Label saleSummaryLabel;
+    private TextArea saleArea;
 
     @FXML
     private void initialize() {
@@ -71,21 +69,27 @@ public class RevenueController {
         showSales(Session.system.getProductSalesOfMonth(year, month));
     }
 
-    // เอารายการขายสินค้าใส่ตาราง และรวมยอด
+    // แสดงรายการขายสินค้า 1 ครั้ง = 1 บรรทัด แล้วสรุปยอดบรรทัดสุดท้าย
     private void showSales(List<ProductSale> sales) {
-        saleTable.getItems().setAll(sales);
+        if (sales.isEmpty()) {
+            saleArea.setText("ไม่มีการขายสินค้าในช่วงนี้");
+            return;
+        }
 
+        String text = "";
         int totalQty = 0;
         int totalMoney = 0;
         for (ProductSale s : sales) {
+            text = text + s.getDate()
+                    + " | " + s.getProduct().getName()
+                    + " | ราคา " + s.getProduct().getPrice()
+                    + " x " + s.getQty()
+                    + " = " + s.getAmount() + " บาท"
+                    + "\n";
             totalQty = totalQty + s.getQty();
             totalMoney = totalMoney + s.getAmount();
         }
-
-        if (sales.isEmpty()) {
-            saleSummaryLabel.setText("ไม่มีการขายสินค้าในช่วงนี้");
-        } else {
-            saleSummaryLabel.setText("ขายสินค้าได้ทั้งหมด " + totalQty + " ชิ้น รวม " + totalMoney + " บาท");
-        }
+        text = text + "\nขายสินค้าได้ทั้งหมด " + totalQty + " ชิ้น รวม " + totalMoney + " บาท";
+        saleArea.setText(text);
     }
 }

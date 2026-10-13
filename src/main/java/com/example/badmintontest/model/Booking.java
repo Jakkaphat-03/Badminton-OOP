@@ -42,11 +42,6 @@ public class Booking implements Income {
         return id;
     }
 
-    // ใช้แสดงชื่อสมาชิกในตาราง (TableView)
-    public String getMemberName() {
-        return member.getName();
-    }
-
     public Member getMember() {
         return member;
     }
@@ -95,10 +90,6 @@ public class Booking implements Income {
         return cashierName;
     }
 
-    public String getTimeText() {
-        return String.format("%02d:00 - %02d:00", startHour, getEndHour());
-    }
-
     // เช็คว่าการจองนี้ชนกับช่วงเวลาที่ขอมาหรือไม่ (สนามเดียวกัน วันเดียวกัน เวลาทับกัน)
     public boolean isOverlap(int court, LocalDate date, int start, int end) {
         if (this.court != court || !this.playDate.equals(date)) {
@@ -112,14 +103,6 @@ public class Booking implements Income {
         return member.getName().toLowerCase().contains(keyword.toLowerCase());
     }
 
-    // ใช้พิมพ์รายการจอง 1 บรรทัด
-    @Override
-    public String toString() {
-        return id + " | " + member.getName() + " | สนาม " + court + " | " + playDate + " " + getTimeText()
-                + " | ค่าสนาม " + courtPrice + " + ค่าเช่า " + rentPrice + " = " + getAmount() + " บาท"
-                + " | สลิป: " + slipPath;
-    }
-
     // ---- ส่วนที่มาจาก interface Income ----
     @Override
     public LocalDate getDate() {
@@ -129,15 +112,5 @@ public class Booking implements Income {
     @Override
     public int getAmount() {
         return courtPrice + rentPrice;
-    }
-
-    @Override
-    public String getType() {
-        return "จองสนาม";
-    }
-
-    @Override
-    public String getDescription() {
-        return id + " " + member.getName() + " สนาม " + court + " " + playDate + " " + getTimeText();
     }
 }

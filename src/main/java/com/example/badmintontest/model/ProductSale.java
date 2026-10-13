@@ -16,19 +16,15 @@ public class ProductSale implements Income {
         this.date = date;
     }
 
-    // getter ด้านล่างนี้ใช้แสดงในตาราง (TableView) หน้าสรุปรายได้
-    public String getProductName() {
-        return product.getName();
-    }
-
-    public int getPrice() {
-        return product.getPrice();
+    public Product getProduct() {
+        return product;
     }
 
     public int getQty() {
         return qty;
     }
 
+    // ---- ส่วนที่มาจาก interface Income ----
     @Override
     public LocalDate getDate() {
         return date;
@@ -37,15 +33,5 @@ public class ProductSale implements Income {
     @Override
     public int getAmount() {
         return product.getPrice() * qty;
-    }
-
-    @Override
-    public String getType() {
-        return "ขายสินค้า";
-    }
-
-    @Override
-    public String getDescription() {
-        return product.getName() + " x " + qty;
     }
 }
