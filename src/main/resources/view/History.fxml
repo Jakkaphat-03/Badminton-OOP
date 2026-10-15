@@ -15,7 +15,7 @@
    <top>
       <HBox spacing="10.0">
          <children>
-            <Label text="รหัสสมาชิก (เช่น M1)" />
+            <Label text="รหัสสมาชิก (เว้นว่าง = ดูทุกคน)" />
             <TextField fx:id="memberField" onAction="#onShowClick" />
             <Button onAction="#onShowClick" text="ดูประวัติ" />
          </children>

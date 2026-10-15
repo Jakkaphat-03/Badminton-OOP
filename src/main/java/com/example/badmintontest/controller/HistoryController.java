@@ -18,21 +18,43 @@ public class HistoryController {
 
     @FXML
     private void onShowClick() {
-        Member member = Session.system.findMember(memberField.getText().trim());
+        String memberId = memberField.getText().trim();
+
+        // ไม่กรอกรหัส → แสดงประวัติของสมาชิกทุกคน
+        if (memberId.equals("")) {
+            List<Member> members = Session.system.getMembers();
+            if (members.isEmpty()) {
+                resultArea.setText("ยังไม่มีสมาชิก");
+                return;
+            }
+            String text = "";
+            for (Member m : members) {
+                text = text + historyOf(m) + "\n----------------------------------------\n";
+            }
+            resultArea.setText(text);
+            return;
+        }
+
+        // กรอกรหัส → แสดงเฉพาะสมาชิกคนนั้น
+        Member member = Session.system.findMember(memberId);
         if (member == null) {
             resultArea.setText("");     // ล้างข้อมูลของสมาชิกคนก่อนหน้า
             Alerts.show("ไม่พบสมาชิก");
             return;
         }
+        resultArea.setText(historyOf(member));
+    }
 
+    // สร้างข้อความประวัติการจองของสมาชิก 1 คน (ใช้ทั้งแบบดูคนเดียว และดูทุกคน)
+    private String historyOf(Member member) {
         // บรรทัดแรก : สรุปของสมาชิก
-        String text = member.getName() + " จองสะสม " + member.getTotalHours()
-                + " ชม. | แพ็กเกจเหลือ " + member.getPackageHoursLeft() + " ชม.\n\n";
+        String text = member.getId() + " " + member.getName() + " จองสะสม " + member.getTotalHours()
+                + " ชม. | แพ็กเกจเหลือ " + member.getPackageHoursLeft() + " ชม.\n";
 
         // บรรทัดต่อ ๆ ไป : การจองทีละรายการ
         List<Booking> list = Session.system.getBookingsOfMember(member);
         if (list.isEmpty()) {
-            text = text + "ยังไม่มีประวัติการจอง";
+            text = text + "ยังไม่มีประวัติการจอง\n";
         }
         for (Booking b : list) {
             text = text + b.getId()
@@ -46,6 +68,6 @@ public class HistoryController {
                     + " | ชำระวันที่ " + b.getDate()
                     + "\n";
         }
-        resultArea.setText(text);
+        return text;
     }
 }
