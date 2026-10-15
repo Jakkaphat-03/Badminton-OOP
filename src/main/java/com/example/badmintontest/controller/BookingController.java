@@ -15,14 +15,11 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.List;
 
 // controller ของ Booking.fxml (แท็บจองสนาม)
 public class BookingController {
     @FXML
     private TextField memberField;
-    @FXML
-    private Label memberInfoLabel;
     @FXML
     private TextField courtField;
     @FXML
@@ -37,8 +34,6 @@ public class BookingController {
     private TextField shoesField;
     @FXML
     private TextField racketField;
-    @FXML
-    private TextField towelField;
     @FXML
     private Label slipLabel;
     @FXML
@@ -77,65 +72,6 @@ public class BookingController {
         startBox.setValue(open);
     }
 
-    // ปุ่มดูข้อมูลสมาชิก : แสดงชั่วโมงสะสม แพ็กเกจ และอีกกี่ชั่วโมงจะได้ส่วนลด
-    @FXML
-    private void onMemberCheckClick() {
-        Member member = Session.system.findMember(memberField.getText().trim());
-        if (member == null) {
-            memberInfoLabel.setText("ไม่พบสมาชิก");
-            return;
-        }
-        showMemberInfo(member);
-    }
-
-    private void showMemberInfo(Member member) {
-        BookingSystem system = Session.system;
-
-        String text = member.getName() + " | จองสะสม " + member.getTotalHours() + " ชม.";
-
-        // สถานะสมาชิก
-        if (member.isExpired()) {
-            text = text + " | สมาชิกหมดอายุแล้ว";
-        } else {
-            text = text + " | สมาชิกหมดอายุ " + member.getExpireDate();
-        }
-
-        // แพ็กเกจ (แสดงเฉพาะคนที่เคยซื้อ)
-        if (member.getPackageExpireDate() != null) {
-            text = text + "\nแพ็กเกจเหลือ " + member.getPackageHoursLeft() + " ชม."
-                    + " (ใช้ได้ถึง " + member.getPackageExpireDate() + ")";
-        }
-
-        // ส่วนลดชั่วโมงที่ 20
-        int n = system.hoursUntilDiscount(member);
-        text = text + "\nชั่วโมงที่ " + n + " ที่จองต่อจากนี้ จะคิดค่าสนามแค่ 30%";
-
-        memberInfoLabel.setText(text);
-    }
-
-    // ปุ่มดูสนามว่าง : แสดงชั่วโมงที่ยังว่างของสนาม 1-12 ในวันที่เลือก
-    @FXML
-    private void onFreeCourtClick() {
-        LocalDate date = datePicker.getValue();
-        if (date == null) {
-            Alerts.show("กรุณาเลือกวันที่");
-            return;
-        }
-        String text = "สนามว่างวันที่ " + date + " (ตัวเลข = ชั่วโมงที่เริ่มเล่นได้)\n";
-        for (int court = 1; court <= BookingSystem.COURT_COUNT; court++) {
-            List<Integer> freeHours = Session.system.getFreeHours(court, date);
-            text = text + "สนาม " + court + " : ";
-            if (freeHours.isEmpty()) {
-                text = text + "เต็ม";
-            }
-            for (int h : freeHours) {
-                text = text + h + ".00  ";
-            }
-            text = text + "\n";
-        }
-        Alerts.show(text);
-    }
-
     // ปุ่มอัปโหลดสลิป : เลือกรูปจากเครื่อง แล้วแสดงรูปให้ดู
     @FXML
     private void onUploadSlipClick() {
@@ -155,14 +91,10 @@ public class BookingController {
     private void onBookClick() {
         BookingSystem system = Session.system;
 
-        // 1. หาสมาชิก และเช็คว่าสมาชิกยังไม่หมดอายุ
+        // 1. หาสมาชิก
         Member member = system.findMember(memberField.getText().trim());
         if (member == null) {
             Alerts.show("ไม่พบสมาชิก (ต้องสมัครสมาชิกก่อนจึงจะจองได้)");
-            return;
-        }
-        if (member.isExpired()) {
-            Alerts.show("สมาชิกหมดอายุแล้ว (หมดอายุวันที่ " + member.getExpireDate() + ") จองไม่ได้");
             return;
         }
 
@@ -177,18 +109,16 @@ public class BookingController {
         int hours;
         int shoes;
         int rackets;
-        int towels;
         try {
             court = Integer.parseInt(courtField.getText().trim());
             hours = Integer.parseInt(hoursField.getText().trim());
             shoes = Integer.parseInt(shoesField.getText().trim());
             rackets = Integer.parseInt(racketField.getText().trim());
-            towels = Integer.parseInt(towelField.getText().trim());
         } catch (Exception e) {
             Alerts.show("กรุณากรอกตัวเลขให้ถูกต้อง");
             return;
         }
-        if (shoes < 0 || rackets < 0 || towels < 0) {
+        if (shoes < 0 || rackets < 0) {
             Alerts.show("จำนวนที่เช่าต้องไม่ติดลบ");
             return;
         }
@@ -205,29 +135,23 @@ public class BookingController {
         }
 
         // 4. แสดงราคา ถามยืนยัน
-        int courtPrice = system.calculateCourtPrice(member, date, hours);
-        int rentPrice = system.calculateRentPrice(shoes, rackets, towels);
-        int packageUsed = system.countPackageHoursUsed(member, date, hours);
+        int courtPrice = system.calculateCourtPrice(member, hours);
+        int rentPrice = system.calculateRentPrice(shoes, rackets);
         boolean ok = Alerts.confirm("ค่าสนาม " + courtPrice + " + ค่าเช่า " + rentPrice
-                + " = " + (courtPrice + rentPrice) + " บาท"
-                + "\n(ใช้ชั่วโมงแพ็กเกจ " + packageUsed + " ชม.)"
-                + "\nยืนยันการจอง?");
+                + " = " + (courtPrice + rentPrice) + " บาท\nยืนยันการจอง?");
         if (!ok) {
             return;
         }
 
         // 5. จองจริง
-        Booking booking = system.createBooking(Session.user, member, court, date, start, hours,
-                shoes, rackets, towels, slip);
+        Booking booking = system.createBooking(Session.user, member, court, date, start, hours, shoes, rackets, slip);
         Alerts.show("จองสำเร็จ รหัสจอง " + booking.getId());
 
-        // ล้างฟอร์ม และอัปเดตข้อมูลสมาชิก
+        // ล้างฟอร์ม
         shoesField.setText("0");
         racketField.setText("0");
-        towelField.setText("0");
         slipFile = null;
         slipLabel.setText("ยังไม่ได้แนบสลิป");
         slipImage.setImage(null);
-        showMemberInfo(member);
     }
 }

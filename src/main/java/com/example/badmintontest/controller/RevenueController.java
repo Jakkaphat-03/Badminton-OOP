@@ -1,11 +1,9 @@
 package com.example.badmintontest.controller;
 
-import com.example.badmintontest.interfaces.Income;
-import com.example.badmintontest.model.Booking;
-import com.example.badmintontest.model.PackagePurchase;
 import com.example.badmintontest.model.ProductSale;
 import com.example.badmintontest.service.Session;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -21,7 +19,7 @@ public class RevenueController {
     @FXML
     private TextField monthField;
     @FXML
-    private TextArea summaryArea;
+    private Label resultLabel;
     @FXML
     private TextArea saleArea;
 
@@ -43,7 +41,7 @@ public class RevenueController {
             Alerts.show("รูปแบบวันที่ไม่ถูกต้อง (ปปปป-ดด-วว)");
             return;
         }
-        showSummary("รายได้วันที่ " + date, Session.system.getIncomesOfDay(date));
+        resultLabel.setText("รายได้รวมวันที่ " + date + " = " + Session.system.getIncomeOfDay(date) + " บาท");
         showSales(Session.system.getProductSalesOfDay(date));
     }
 
@@ -66,54 +64,9 @@ public class RevenueController {
             Alerts.show("ปีต้องมากกว่า 0");
             return;
         }
-        showSummary("รายได้เดือน " + month + "/" + year, Session.system.getIncomesOfMonth(year, month));
+        resultLabel.setText("รายได้รวมเดือน " + month + "/" + year + " = "
+                + Session.system.getIncomeOfMonth(year, month) + " บาท");
         showSales(Session.system.getProductSalesOfMonth(year, month));
-    }
-
-    @FXML
-    private void onYearClick() {
-        int year;
-        try {
-            year = Integer.parseInt(yearField.getText().trim());
-        } catch (Exception e) {
-            Alerts.show("ปีต้องเป็นตัวเลข");
-            return;
-        }
-        if (year < 1) {
-            Alerts.show("ปีต้องมากกว่า 0");
-            return;
-        }
-        showSummary("รายได้ปี " + year, Session.system.getIncomesOfYear(year));
-        showSales(Session.system.getProductSalesOfYear(year));
-    }
-
-    // แยกรายได้ตามประเภท : ค่าสนาม / ค่าเช่าอุปกรณ์ / ขายสินค้า / แพ็กเกจ
-    // ใช้ instanceof เช็คว่ารายได้แต่ละรายการเป็นคลาสไหน
-    private void showSummary(String title, List<Income> list) {
-        int courtMoney = 0;
-        int rentMoney = 0;
-        int productMoney = 0;
-        int packageMoney = 0;
-
-        for (Income i : list) {
-            if (i instanceof Booking) {
-                Booking b = (Booking) i;            // แปลงชนิดเป็น Booking เพื่อเรียกเมธอดของ Booking ได้
-                courtMoney = courtMoney + b.getCourtPrice();
-                rentMoney = rentMoney + b.getRentPrice();
-            } else if (i instanceof ProductSale) {
-                productMoney = productMoney + i.getAmount();
-            } else if (i instanceof PackagePurchase) {
-                packageMoney = packageMoney + i.getAmount();
-            }
-        }
-
-        String text = title + "\n"
-                + "ค่าสนาม        " + courtMoney + " บาท\n"
-                + "ค่าเช่าอุปกรณ์   " + rentMoney + " บาท\n"
-                + "ขายสินค้า       " + productMoney + " บาท\n"
-                + "ขายแพ็กเกจ      " + packageMoney + " บาท\n"
-                + "รวมทั้งหมด      " + Session.system.sumIncome(list) + " บาท";
-        summaryArea.setText(text);
     }
 
     // แสดงรายการขายสินค้า 1 ครั้ง = 1 บรรทัด แล้วสรุปยอดบรรทัดสุดท้าย
@@ -131,11 +84,8 @@ public class RevenueController {
                     + " | " + s.getProduct().getName()
                     + " | ราคา " + s.getProduct().getPrice()
                     + " x " + s.getQty()
-                    + " = " + s.getAmount() + " บาท";
-            if (s.isMemberDiscount()) {
-                text = text + " (สมาชิกลด 5%)";
-            }
-            text = text + "\n";
+                    + " = " + s.getAmount() + " บาท"
+                    + "\n";
             totalQty = totalQty + s.getQty();
             totalMoney = totalMoney + s.getAmount();
         }

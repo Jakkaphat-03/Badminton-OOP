@@ -54,11 +54,6 @@
                   <fx:include source="Revenue.fxml" />
                </content>
             </Tab>
-            <Tab fx:id="stockTab" text="จัดการสินค้า">
-               <content>
-                  <fx:include source="Stock.fxml" />
-               </content>
-            </Tab>
          </tabs>
       </TabPane>
    </center>

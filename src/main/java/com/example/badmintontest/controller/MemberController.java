@@ -30,14 +30,8 @@ public class MemberController {
             Alerts.show("กรุณากรอกชื่อและเบอร์โทร");
             return;
         }
-        // ห้ามสมัครเบอร์โทรซ้ำ
-        if (Session.system.isPhoneUsed(phone)) {
-            Alerts.show("เบอร์โทรนี้สมัครสมาชิกไปแล้ว");
-            return;
-        }
         Member member = Session.system.registerMember(name, phone);
-        Alerts.show("สมัครสำเร็จ รหัสสมาชิก = " + member.getId()
-                + "\nใช้ได้ถึงวันที่ " + member.getExpireDate());
+        Alerts.show("สมัครสำเร็จ รหัสสมาชิก = " + member.getId());
         nameField.setText("");
         phoneField.setText("");
         showMembers();
@@ -50,20 +44,9 @@ public class MemberController {
             Alerts.show("ไม่พบสมาชิก");
             return;
         }
-        if (member.isExpired()) {
-            Alerts.show("สมาชิกหมดอายุแล้ว ซื้อแพ็กเกจไม่ได้");
-            return;
-        }
         Session.system.buyPackage(member);
-        Alerts.show("ซื้อแพ็กเกจสำเร็จ " + member.getName() + " เหลือ " + member.getPackageHoursLeft() + " ชม."
-                + "\nใช้ได้ถึงวันที่ " + member.getPackageExpireDate());
+        Alerts.show("ซื้อแพ็กเกจสำเร็จ " + member.getName() + " เหลือ " + member.getPackageHoursLeft() + " ชม.");
         packageMemberField.setText("");
-        showMembers();
-    }
-
-    // ปุ่มรีเฟรช : โหลดรายชื่อใหม่ (เช่น หลังจากไปจองในแท็บอื่นมา)
-    @FXML
-    private void onRefreshClick() {
         showMembers();
     }
 
@@ -75,11 +58,8 @@ public class MemberController {
                     + " | " + m.getName()
                     + " | " + m.getPhone()
                     + " | จองสะสม " + m.getTotalHours() + " ชม."
-                    + " | แพ็กเกจเหลือ " + m.getPackageHoursLeft() + " ชม.";
-            if (m.getPackageExpireDate() != null) {
-                text = text + " (ถึง " + m.getPackageExpireDate() + ")";
-            }
-            text = text + " | สมาชิกถึง " + m.getExpireDate() + "\n";
+                    + " | แพ็กเกจเหลือ " + m.getPackageHoursLeft() + " ชม."
+                    + "\n";
         }
         if (text.equals("")) {
             text = "ยังไม่มีสมาชิก";

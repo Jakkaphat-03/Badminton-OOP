@@ -19,8 +19,7 @@
             <TextField fx:id="nameField" />
             <Label text="เบอร์โทร" />
             <TextField fx:id="phoneField" />
-            <Button onAction="#onRegisterClick" text="สมัครสมาชิก (ใช้ได้ 1 ปี)" />
-            <Button onAction="#onRefreshClick" text="รีเฟรช" />
+            <Button onAction="#onRegisterClick" text="สมัครสมาชิก" />
          </children>
       </HBox>
    </top>
@@ -33,7 +32,7 @@
          <children>
             <Label text="รหัสสมาชิก" />
             <TextField fx:id="packageMemberField" />
-            <Button onAction="#onBuyPackageClick" text="ซื้อแพ็กเกจ 15 ชม. (2600 บาท ใช้ได้ 3 เดือน)" />
+            <Button onAction="#onBuyPackageClick" text="ซื้อแพ็กเกจ 15 ชม. (2600 บาท)" />
          </children>
       </HBox>
    </bottom>

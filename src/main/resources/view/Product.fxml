@@ -20,13 +20,10 @@
       <HBox spacing="10.0">
          <children>
             <Label text="หมายเลขสินค้า" />
-            <TextField fx:id="numberField" prefWidth="60.0" />
+            <TextField fx:id="numberField" />
             <Label text="จำนวน" />
-            <TextField fx:id="qtyField" prefWidth="60.0" text="1" />
-            <Label text="รหัสสมาชิก (ถ้ามี ลด 5%)" />
-            <TextField fx:id="memberField" prefWidth="80.0" />
+            <TextField fx:id="qtyField" text="1" />
             <Button onAction="#onSellClick" text="ขายสินค้า" />
-            <Button onAction="#onRefreshClick" text="รีเฟรช" />
          </children>
       </HBox>
    </bottom>

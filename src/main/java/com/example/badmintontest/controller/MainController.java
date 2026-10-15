@@ -26,8 +26,6 @@ public class MainController {
     private Tab historyTab;
     @FXML
     private Tab revenueTab;
-    @FXML
-    private Tab stockTab;
 
     // initialize() จะถูกเรียกเองอัตโนมัติหลังโหลดไฟล์ fxml เสร็จ
     @FXML
@@ -40,7 +38,7 @@ public class MainController {
             tabPane.getTabs().removeAll(bookingTab, searchTab, memberTab, productTab);
         }
         if (!user.canViewReport()) {
-            tabPane.getTabs().removeAll(historyTab, revenueTab, stockTab);
+            tabPane.getTabs().removeAll(historyTab, revenueTab);
         }
     }
 
